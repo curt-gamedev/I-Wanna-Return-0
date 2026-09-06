@@ -42,11 +42,12 @@
   </object>
  </objectgroup>
  <objectgroup id="5" name="Collectables">
-  <object id="35" x="432" y="464"/>
+  <object id="35" name="coin" x="432" y="464" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="6" name="Warps">
   <object id="29" name="warp1" x="704" y="464" width="32" height="32">
    <properties>
+    <property name="locked" type="bool" value="true"/>
     <property name="target_room" value="room1example.tmx"/>
    </properties>
   </object>

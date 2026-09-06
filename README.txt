@@ -7,6 +7,36 @@ Built with:
 - PyTMX
 - Tiled
 
+Controls
+
+Keyboard:
+- Move: A/D or Arrow Keys
+- Jump / Double Jump: Z or Space
+- Shoot: X
+- Restart: R
+
+Controller:
+- Move: Left Stick / D-Pad
+- Jump / Double Jump: A / Cross
+- Shoot: X / Square
+- Restart: Y / Triangle
+
+## Running from Source
+
+Requires Python 3 and:
+
+- pygame-ce
+- PyTMX
+
+Install dependencies:
+
+pip install pygame-ce pytmx
+
+Run:
+
+python main.py
+
+
 Current features:
 - classic-style movement and double jump
 - controller support
@@ -17,7 +47,7 @@ Current features:
 - death / restart
 - timer and death counter
 
-Features to do: (incomplete list)
+Planned / Experimental features:
 - moving platforms
 - wall jumps
 - trigger traps
