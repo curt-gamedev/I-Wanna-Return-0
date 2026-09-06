@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="97">
+ <properties>
+  <property name="background" value="code1.png"/>
+ </properties>
+ <tileset firstgid="1" source="ground.tsx"/>
+ <tileset firstgid="17" source="killers.tsx"/>
+ <tileset firstgid="22" source="saves.tsx"/>
+ <layer id="1" name="Ground" width="25" height="19">
+  <data encoding="csv">
+0,0,0,0,14,0,0,0,0,0,0,18,0,0,0,0,0,0,0,18,0,0,0,0,10,
+0,0,14,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,
+0,19,14,0,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,13,13,14,
+0,0,14,0,0,19,0,0,0,0,0,0,0,0,21,0,0,0,0,0,0,0,0,0,10,
+0,0,14,13,13,13,14,20,0,0,0,0,0,0,0,14,13,14,0,0,0,19,14,0,10,
+0,0,14,0,0,0,0,0,0,0,21,0,0,0,0,14,0,0,20,0,0,0,18,0,14,
+0,0,14,0,0,0,0,0,20,0,14,21,21,21,21,14,0,0,0,0,0,0,0,21,10,
+20,0,14,0,0,0,14,0,0,14,0,0,0,0,0,0,20,0,0,0,0,0,0,14,10,
+0,0,14,0,0,0,18,0,0,0,0,0,0,0,0,0,0,19,14,13,13,14,0,0,14,
+0,19,0,0,14,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,0,0,0,10,
+0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,0,0,0,10,
+14,13,13,13,13,13,13,14,0,0,0,0,0,21,0,14,13,13,13,13,13,13,13,13,14,
+0,0,0,0,0,0,0,18,0,0,0,0,14,14,0,0,10,0,0,18,0,18,0,19,10,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,20,0,19,10,
+0,0,0,0,0,0,0,14,13,13,14,20,0,0,0,19,14,0,0,21,0,0,0,0,10,
+0,0,0,0,0,0,0,0,0,0,18,0,0,0,0,0,0,0,0,20,0,19,0,19,10,
+0,0,0,0,0,0,0,21,0,21,0,0,0,0,0,0,0,19,0,20,0,21,0,19,10,
+13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,
+9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9
+</data>
+ </layer>
+ <objectgroup id="2" name="Collisions" visible="0">
+  <object id="8" x="224" y="448" width="128" height="32"/>
+  <object id="9" x="0" y="544" width="800" height="64"/>
+  <object id="10" x="768" y="384" width="32" height="160"/>
+  <object id="14" name="block" x="480" y="160" width="32" height="64"/>
+  <object id="31" x="512" y="384" width="32" height="96"/>
+  <object id="32" x="384" y="384" width="64" height="32"/>
+  <object id="33" x="0" y="352" width="256" height="32"/>
+  <object id="80" x="64" y="32" width="32" height="256"/>
+  <object id="81" x="96" y="128" width="128" height="32"/>
+  <object id="82" x="128" y="0" width="32" height="64"/>
+  <object id="83" x="128" y="288" width="32" height="64"/>
+  <object id="84" x="192" y="224" width="32" height="32"/>
+  <object id="85" x="288" y="224" width="32" height="32"/>
+  <object id="86" x="320" y="192" width="32" height="32"/>
+  <object id="87" x="480" y="128" width="96" height="32"/>
+  <object id="88" x="672" y="64" width="96" height="32"/>
+  <object id="89" x="768" y="0" width="32" height="608"/>
+  <object id="90" x="704" y="128" width="32" height="32"/>
+  <object id="91" x="736" y="224" width="32" height="32"/>
+  <object id="92" x="480" y="352" width="288" height="32"/>
+  <object id="93" x="576" y="256" width="128" height="32"/>
+ </objectgroup>
+ <objectgroup id="3" name="Hazards">
+  <object id="15" name="up" x="608" y="352">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="20" name="spike_down" x="320" y="480">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="21" name="spike_right" x="352" y="448">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="22" name="spike_left" x="512" y="448">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="28" name="spike_down" x="224" y="384">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="34" name="spike_down" x="608" y="384">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="35" name="spike_down" x="672" y="384">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="36" name="spike_up" x="224" y="544">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="37" name="spike_up" x="672" y="544">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="38" name="spike_up" x="608" y="480">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="39" name="spike_up" x="416" y="384">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="40" name="spike_right" x="608" y="480">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="41" name="spike_right" x="608" y="512">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="42" name="right" x="160" y="288">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="43" name="spike_left" x="576" y="512">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="44" name="spike_left" x="704" y="480">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="45" name="spike_left" x="768" y="512">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="46" name="spike_left" x="768" y="480">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="47" name="spike_left" x="768" y="416">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="48" name="spike_left" x="768" y="384">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="54" name="spike_left" x="704" y="128">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="55" name="spike_left" x="576" y="256">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="56" name="spike_left" x="192" y="96">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="57" name="spike_left" x="64" y="64">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="58" name="spike_left" x="64" y="288">
+   <polygon points="0,0 -32,16 0,32"/>
+  </object>
+  <object id="59" name="spike_right" x="672" y="416">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="60" name="right" x="0" y="224">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="61" name="right" x="256" y="192">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="62" name="right" x="224" y="128">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="63" name="right" x="576" y="160">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="64" name="right" x="512" y="224">
+   <polygon points="0,0 32,16 0,32"/>
+  </object>
+  <object id="65" name="spike_up" x="288" y="544">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="66" name="up" x="736" y="224">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="67" name="up" x="448" y="128">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="68" name="up" x="448" y="224">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="69" name="up" x="416" y="224">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="70" name="up" x="384" y="224">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="72" name="up" x="352" y="224">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="73" name="up" x="320" y="192">
+   <polyline points="0,0 16,-32 32,0 0,0"/>
+  </object>
+  <object id="74" name="spike_down" x="704" y="160">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="75" name="spike_down" x="640" y="288">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="76" name="spike_down" x="608" y="0">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="77" name="spike_down" x="352" y="0">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="79" name="spike_down" x="192" y="256">
+   <polygon points="0,0 32,0 16,32"/>
+  </object>
+  <object id="96" x="129" y="64">
+   <polygon points="0,0 30,0 30,3 15,32 0,3"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="Collectables">
+  <object id="24" name="coin" x="416" y="448" width="32" height="32"/>
+  <object id="29" name="coin" x="224" y="288" width="32" height="32"/>
+  <object id="30" name="coin" x="736" y="448" width="32" height="32"/>
+  <object id="50" name="coin" x="704" y="96" width="32" height="32"/>
+  <object id="51" name="coin" x="736" y="32" width="32" height="32"/>
+  <object id="52" name="coin" x="352" y="160" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="Warps">
+  <object id="26" name="warp1" x="384" y="288" width="32" height="32">
+   <properties>
+    <property name="locked" type="bool" value="true"/>
+    <property name="target_room" value="room_end.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="7" name="Spawns">
+  <object id="27" name="player_start" x="48" y="512"/>
+ </objectgroup>
+ <objectgroup id="4" name="Saves">
+  <object id="23" name="save" x="96" y="512" width="32" height="32">
+   <properties>
+    <property name="shootable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="49" name="save" x="480" y="512" width="32" height="32">
+   <properties>
+    <property name="shootable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="94" name="save" x="640" y="224" width="32" height="32">
+   <properties>
+    <property name="shootable" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="95" name="save" x="192" y="192" width="32" height="32">
+   <properties>
+    <property name="shootable" type="bool" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

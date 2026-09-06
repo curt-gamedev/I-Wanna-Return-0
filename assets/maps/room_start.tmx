@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="36">
+ <tileset firstgid="1" source="ground.tsx"/>
+ <tileset firstgid="17" source="killers.tsx"/>
+ <tileset firstgid="22" source="saves.tsx"/>
+ <layer id="1" name="Ground" width="25" height="19">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,21,0,21,0,0,0,0,0,0,
+11,11,11,11,11,11,11,0,0,0,0,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
+6,8,6,6,8,6,8,0,0,0,0,8,8,6,8,8,6,6,6,6,8,8,8,6,6,
+8,8,8,8,8,8,8,0,0,0,0,8,8,8,8,8,8,8,8,8,8,8,8,8,8
+</data>
+ </layer>
+ <objectgroup id="7" name="Spawns">
+  <object id="27" name="player_start" x="80" y="496"/>
+ </objectgroup>
+ <objectgroup id="2" name="Collisions">
+  <object id="30" x="0" y="512" width="224" height="96"/>
+  <object id="31" x="352" y="512" width="448" height="96"/>
+ </objectgroup>
+ <objectgroup id="3" name="Hazards">
+  <object id="32" x="512" y="512">
+   <polygon points="0,0 16,-32 32,0"/>
+  </object>
+  <object id="34" x="576" y="512">
+   <polygon points="0,0 16,-32 32,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="Collectables">
+  <object id="35" x="432" y="464"/>
+ </objectgroup>
+ <objectgroup id="6" name="Warps">
+  <object id="29" name="warp1" x="704" y="464" width="32" height="32">
+   <properties>
+    <property name="target_room" value="room1example.tmx"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Saves"/>
+</map>
