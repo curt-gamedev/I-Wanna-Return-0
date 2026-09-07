@@ -1,6 +1,7 @@
 import pygame
 from animation import PlayerAnimation
 from bullet import Bullet
+from paths import resource_path
 
 class Player:
     SPRITE_SIZE = 32
@@ -67,7 +68,7 @@ class Player:
         self.animation = PlayerAnimation()
 
         # Shooting
-        self.bullet_image = pygame.image.load("assets/Bullet_1.png").convert_alpha()
+        self.bullet_image = pygame.image.load(resource_path("assets/Bullet_1.png")).convert_alpha()
         self.bullets = []
 
         # Handy while developing

@@ -1,6 +1,5 @@
 import pygame
-from pathlib import Path
-
+from paths import resource_path
 
 class Animation:
     def __init__(self, frames, image_speed=0.2, loop=True):
@@ -32,30 +31,29 @@ class Animation:
 
 class PlayerAnimation:
     def __init__(self):
-        asset_path = Path(__file__).parent / "assets" / "player"
 
         idle_frames = [
-            pygame.image.load(asset_path / "PlayerIdle_0.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerIdle_1.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerIdle_2.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerIdle_3.png").convert_alpha()
+            pygame.image.load(resource_path("assets/player/PlayerIdle_0.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerIdle_1.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerIdle_2.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerIdle_3.png")).convert_alpha()
         ]
 
         run_frames = [
-            pygame.image.load(asset_path / "PlayerRunning_0.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerRunning_1.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerRunning_2.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerRunning_3.png").convert_alpha()
+            pygame.image.load(resource_path("assets/player/PlayerRunning_0.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerRunning_1.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerRunning_2.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerRunning_3.png")).convert_alpha()
         ]
 
         jump_frames = [
-            pygame.image.load(asset_path / "PlayerJump_0.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerJump_1.png").convert_alpha()
+            pygame.image.load(resource_path("assets/player/PlayerJump_0.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerJump_1.png")).convert_alpha()
         ]
 
         fall_frames = [
-            pygame.image.load(asset_path / "PlayerFall_0.png").convert_alpha(),
-            pygame.image.load(asset_path / "PlayerFall_1.png").convert_alpha()
+            pygame.image.load(resource_path("assets/player/PlayerFall_0.png")).convert_alpha(),
+            pygame.image.load(resource_path("assets/player/PlayerFall_1.png")).convert_alpha()
         ]
 
         self.animations = {

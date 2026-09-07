@@ -29,13 +29,10 @@ Requires Python 3 and:
 - PyTMX
 
 Install dependencies:
-
 pip install pygame-ce pytmx
 
 Run:
-
 python main.py
-
 
 Current features:
 - classic-style movement and double jump
@@ -51,9 +48,8 @@ Planned / Experimental features:
 - moving platforms
 - wall jumps
 - trigger traps
-- save files
+- save files (also package assets better)
 - parallax background layers
 - dynamic sized rooms
 - camera follow player or camera snaps to next 'room' in a single tmx room
 
-...etc

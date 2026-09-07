@@ -1,3 +1,5 @@
+
+
 class Bullet:
     def __init__(self, x, y, direction, image):
         self.image = image

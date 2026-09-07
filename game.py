@@ -6,6 +6,7 @@ from audio_manager import AudioManager
 from blood_particle import BloodParticle
 from objects import Coin, Warp, SavePoint
 from animation import ScrollingText
+from paths import resource_path
 
 def point_in_polygon(point, polygon):
     x, y = point
@@ -81,12 +82,12 @@ class Game:
 
         # Reusable object assets
         # Coin collectable
-        self.coin_sheet = pygame.image.load("assets/coin_gold.png").convert_alpha()
+        self.coin_sheet = pygame.image.load(resource_path("assets/coin_gold.png")).convert_alpha()
         # Warps
-        self.warp_image = pygame.image.load("assets/Warp.png").convert_alpha()
+        self.warp_image = pygame.image.load(resource_path("assets/Warp.png")).convert_alpha()
         # Saves
-        self.save_image = pygame.image.load("assets/Save_0.png").convert_alpha()
-        self.save_active_image = pygame.image.load("assets/Save_1.png").convert_alpha()
+        self.save_image = pygame.image.load(resource_path("assets/Save_0.png")).convert_alpha()
+        self.save_active_image = pygame.image.load(resource_path("assets/Save_1.png")).convert_alpha()
         
         # Room State
         self.game_map = None
@@ -323,11 +324,11 @@ class Game:
         self.current_room = filename
 
         # Load the TMX room
-        self.game_map = MapLoader(f"assets/maps/{filename}")
+        self.game_map = MapLoader(resource_path(f"assets/maps/{filename}"))
 
         # Background
         if self.game_map.background:
-            self.background = pygame.image.load(f"assets/backgrounds/{self.game_map.background}").convert()
+            self.background = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.background}")).convert()
         else:
             self.background = None
 
