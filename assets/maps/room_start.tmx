@@ -27,7 +27,7 @@
 </data>
  </layer>
  <objectgroup id="7" name="Spawns">
-  <object id="27" name="player_start" x="80" y="496"/>
+  <object id="27" name="player_start" x="96" y="480" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="2" name="Collisions">
   <object id="30" x="0" y="512" width="224" height="96"/>

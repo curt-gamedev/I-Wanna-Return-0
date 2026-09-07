@@ -23,10 +23,9 @@ Controller:
 
 ## Running from Source
 
-Requires Python 3 and:
-
-- pygame-ce
-- PyTMX
+Requires: 
+Python3, pygame-ce, PyTMX(for reading the .tmx files)
+(Tiled for level editing, not required to run the game)
 
 Install dependencies:
 pip install pygame-ce pytmx

@@ -40,6 +40,7 @@ class Bullet:
                 self.active = False
                 break
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         if self.active:
-            screen.blit(self.image, self.rect)
+            draw_rect = self.rect.move(-camera.x, -camera.y)
+            screen.blit(self.image, draw_rect)

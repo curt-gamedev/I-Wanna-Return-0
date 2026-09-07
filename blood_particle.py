@@ -17,7 +17,7 @@ class BloodParticle:
         self.gravity = 0.15
 
         self.life = 100
-        self.size = random.choice((2, 2, 2, 3))
+        self.radius = random.choice((2, 2, 2, 3))
 
     def update(self):
         self.velocity_y += self.gravity
@@ -27,14 +27,13 @@ class BloodParticle:
 
         self.life -= 1
 
-    def draw(self, screen):
-        pygame.draw.rect(
+    def draw(self, screen, camera):
+        draw_x = round(self.x - camera.x)
+        draw_y = round(self.y - camera.y)
+        pygame.draw.circle(
             screen,
             (150, 0, 0),
-            (
-                round(self.x),
-                round(self.y),
-                self.size,
-                self.size
+            (draw_x, draw_y),
+            self.radius
             )
-        )
+        

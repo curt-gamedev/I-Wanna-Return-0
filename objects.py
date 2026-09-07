@@ -28,9 +28,10 @@ class Warp(Trigger):
         self.visible = False
         self.active = False
 
-    def draw(self, screen, image):
+    def draw(self, screen, image, camera):
         if self.visible:
-            screen.blit(image, self.rect.topleft)
+            draw_rect = self.rect.move(-camera.x, -camera.y)
+            screen.blit(image, draw_rect.topleft)
 
 class Collectable(Trigger):
     def __init__(self, rect):
@@ -83,14 +84,13 @@ class Coin(Collectable):
             if self.frame_index >= len(self.frames):
                 self.frame_index = 0
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         if self.collected:
             return
 
-        screen.blit(
-            self.frames[self.frame_index],
-            self.rect.topleft
-        )
+        draw_rect = self.rect.move(-camera.x, -camera.y)
+
+        screen.blit(self.frames[self.frame_index], draw_rect.topleft)
 
 class SavePoint:
     def __init__(self, rect, normal_image, active_image, shootable=False):
@@ -110,13 +110,14 @@ class SavePoint:
         if self.active_timer > 0:
             self.active_timer -= 1
 
-    def draw(self, screen):
+    def draw(self, screen, camera):
         if self.active_timer > 0:
             image = self.active_image
         else:
             image = self.normal_image
 
-        screen.blit(image, self.rect.topleft)
+        draw_rect = self.rect.move(-camera.x, -camera.y)
+        screen.blit(image, draw_rect.topleft)
 
 
 

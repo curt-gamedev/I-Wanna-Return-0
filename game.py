@@ -7,6 +7,7 @@ from blood_particle import BloodParticle
 from objects import Coin, Warp, SavePoint
 from animation import ScrollingText
 from paths import resource_path
+from camera import Camera
 
 def point_in_polygon(point, polygon):
     x, y = point
@@ -60,6 +61,7 @@ class Game:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption(self.TITLE)
         self.clock = pygame.time.Clock()
+        self.debug_font = pygame.font.Font(None, 32)
         
         # Input
         self.input = InputManager()
@@ -101,13 +103,18 @@ class Game:
         self.end_text = None
         self.end_font = pygame.font.Font(None, 36  )
 
+        # Initialize a camera
+        self.camera = Camera(self.WIDTH, self.HEIGHT)
+
         # Load starting room 
-        self.load_room("room_start.tmx")
+        self.load_room("room_snapping_test.tmx")
 
         self.second_timer = 0 # for the once per second update checks
         self.deaths = 0
         self.elapsed_seconds = 0
         self.stats_display_mode = ""
+
+
         # RUNNING
         self.running = True
     
@@ -161,6 +168,8 @@ class Game:
 	# ------------------------
     def update(self):
 
+        self.camera.update_snap(self.player.rect, self.game_map.width, self.game_map.height)
+
         if self.input.restart_pressed:
             if not self.player_dead:
                 self.deaths += 1
@@ -174,7 +183,7 @@ class Game:
                 self.input.jump_pressed, 
                 self.input.jump_released, 
                 self.game_map.collisions, 
-                self.WIDTH
+                self.game_map.width
             )
 
             if self.input.shoot_pressed:
@@ -205,12 +214,13 @@ class Game:
         for particle in self.blood_particles:
             particle.update()
 
+        self._update_saves()
+
         for bullet in self.player.bullets:
             bullet.update(self.game_map.collisions)
             
         self.player.bullets = [bullet for bullet in self.player.bullets if bullet.active]
 
-        self._update_saves()
         for save in self.saves:
             save.update()
 
@@ -274,34 +284,36 @@ class Game:
         else:
             self.screen.fill(self.DEFAULT_BACKGROUND_COLOR)
 
-        self.game_map.draw(self.screen)
+        self.game_map.draw(self.screen, self.camera.x, self.camera.y)
 
         for bullet in self.player.bullets:
-            bullet.draw(self.screen)
+            bullet.draw(self.screen, self.camera)
         
         for particle in self.blood_particles:
-            particle.draw(self.screen)
+            particle.draw(self.screen, self.camera)
             
         for coin in self.coins:
-            coin.draw(self.screen)
+            coin.draw(self.screen, self.camera)
             
         for warp in self.warps:
-            warp.draw(self.screen, self.warp_image)
+            warp.draw(self.screen, self.warp_image, self.camera)
 
         for save in self.saves:
-            save.draw(self.screen)
+            save.draw(self.screen, self.camera)
             
         if not self.player_dead:
-            self.player.draw(self.screen)
+            self.player.draw(self.screen, self.camera)
             
         if self.player_dead:
             self._draw_game_over()
 	
         #DEBUG
-        #self.game_map.draw_debug_collisions(self.screen)
-        #self.game_map.draw_debug_hazards(self.screen)
-        #self.game_map.draw_debug_saves(self.screen)
-        #self.game_map.draw_debug_collectables(self.screen)
+        self.game_map.draw_debug_collisions(self.screen,self.camera)
+        self.game_map.draw_debug_hazards(self.screen, self.camera)
+        self.game_map.draw_debug_saves(self.screen, self.camera)
+        self.game_map.draw_debug_collectables(self.screen, self.camera)
+        self._draw_debug_info()
+        self.player.show_hitbox = True
 
         if self.end_text:
             self.end_text.draw(self.screen)
@@ -316,6 +328,22 @@ class Game:
         self.screen.blit(game_over_text, game_over_rect)
         pygame.draw.line(self.screen, (255, 255, 255), (self.WIDTH // 2 - 140, self.HEIGHT // 2), (self.WIDTH // 2 + 140, self.HEIGHT // 2), 2)
         self.screen.blit(restart_text, restart_rect)
+
+    def _draw_debug_info(self):
+        player_text = self.debug_font.render(
+            f"player: {self.player.rect.x}, {self.player.rect.y}",
+            True,
+            (255, 255, 255)
+        )
+
+        camera_text = self.debug_font.render(
+            f"camera: {self.camera.x}, {self.camera.y}",
+            True,
+            (255, 255, 255)
+        )
+
+        self.screen.blit(player_text, (32, 32))
+        self.screen.blit(camera_text, (32, 64))
     
     # ---------------
     # ROOM STUFF
@@ -342,6 +370,7 @@ class Game:
             self.respawn_y = spawn_y
 
             self.player.respawn(spawn_x, spawn_y)
+            self.camera.update_snap(self.player.rect, self.game_map.width, self.game_map.height)
 
         # Room Objects
         self.coins = []
@@ -360,7 +389,7 @@ class Game:
             self.warps.append(warp)
 
         for save_data in self.game_map.saves:
-            self.saves.append(SavePoint(save_data["rect"], self.save_image, self.save_active_image))
+            self.saves.append(SavePoint(save_data["rect"], self.save_image, self.save_active_image, save_data["shootable"]))
 
         if self.current_room == "room_end.tmx":
             self.end_text = ScrollingText(

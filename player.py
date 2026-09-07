@@ -77,7 +77,7 @@ class Player:
     # --------------------------------------------------
     # UPDATE
     # --------------------------------------------------
-    def update(self, move_left, move_right, jump_pressed, jump_released, collision_rects, screen_width):
+    def update(self, move_left, move_right, jump_pressed, jump_released, collision_rects, map_width):
 
         # -------------------------
         # HORIZONTAL MOVEMENT
@@ -185,8 +185,8 @@ class Player:
             self.rect.left = 0
             self._sync_position_from_rect()
 
-        if self.rect.right > screen_width:
-            self.rect.right = screen_width
+        if self.rect.right > map_width:
+            self.rect.right = map_width
             self._sync_position_from_rect()
 
         self._update_animation(move_left, move_right)
@@ -258,7 +258,7 @@ class Player:
     # --------------------------------------------------
     # DRAW
     # --------------------------------------------------
-    def draw(self, screen):
+    def draw(self, screen, camera):
 
         image = self.animation.get_frame()
 
@@ -270,11 +270,14 @@ class Player:
         if not self.facing_right:
             image = pygame.transform.flip(image, True, False)
 
-        screen.blit(image, ( round(self.x), round(self.y) ))
+        draw_x = round(self.x - camera.x)
+        draw_y = round(self.y - camera.y)
+        screen.blit(image, ( draw_x, draw_y ))
 
         # Temporary collider visualization
         if self.show_hitbox:
-            pygame.draw.rect(screen, (255, 0, 255), self.rect, 1)
+            debug_rect = self.rect.move(-camera.x, -camera.y)
+            pygame.draw.rect(screen, (255, 0, 255), debug_rect, 1)
 
     def shoot(self):
         direction = 1 if self.facing_right else -1
