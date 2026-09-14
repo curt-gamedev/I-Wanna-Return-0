@@ -19,6 +19,7 @@ class MapLoader:
         self.saves = []
         self.collectables = []
         self.warps = []
+        self.water = []
 
         self._load_spawns()
         self._load_collisions()
@@ -26,6 +27,7 @@ class MapLoader:
         self._load_saves()
         self._load_collectables()
         self._load_warps()
+        self._load_water()
     
     #-----------------------
     # LOADING FROM TMX
@@ -86,6 +88,14 @@ class MapLoader:
                 "rect": rect, 
                 "target_room": obj.properties.get("target_room"),
                 "locked": obj.properties.get("locked", False) })
+
+    def _load_water(self):
+        layer = self._get_layer("Water")
+        if layer is None:
+            return
+        for obj in layer:
+            rect = pygame.Rect(round(obj.x), round(obj.y), round(obj.width), round(obj.height))
+            self.water.append(rect)
 
     def _get_layer(self, name):
         try:

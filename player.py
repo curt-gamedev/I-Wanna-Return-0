@@ -77,7 +77,16 @@ class Player:
     # --------------------------------------------------
     # UPDATE
     # --------------------------------------------------
-    def update(self, move_left, move_right, jump_pressed, jump_released, collision_rects, map_width):
+    def update(
+        self, 
+        move_left, 
+        move_right, 
+        jump_pressed, 
+        jump_released, 
+        collision_rects, 
+        map_width, 
+        in_water
+        ):
 
         # -------------------------
         # HORIZONTAL MOVEMENT
@@ -113,11 +122,16 @@ class Player:
         # -------------------------
 
         if jump_pressed:
-            if self._is_on_ground(collision_rects):
+
+            if in_water:
+                self.velocity_y = self.first_jump_speed
+
+            elif self._is_on_ground(collision_rects):
                  # First jump
                 self.velocity_y = self.first_jump_speed
                 self.double_jump_available = True
                 self.audio.jump_sound.play()
+                
             elif self.double_jump_available:
                 # Double jump
                 self.velocity_y = self.double_jump_speed

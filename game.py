@@ -177,13 +177,17 @@ class Game:
             return
         
         if not self.player_dead:
+            player_in_water = any (self.player.rect.colliderect(water_rect)
+                for water_rect in self.game_map.water )
+
             self.player.update(
                 self.input.move_left, 
                 self.input.move_right, 
                 self.input.jump_pressed, 
                 self.input.jump_released, 
                 self.game_map.collisions, 
-                self.game_map.width
+                self.game_map.width,
+                player_in_water
             )
 
             if self.input.shoot_pressed:
@@ -303,6 +307,8 @@ class Game:
             
         if not self.player_dead:
             self.player.draw(self.screen, self.camera)
+
+        self._draw_water()
             
         if self.player_dead:
             self._draw_game_over()
@@ -344,6 +350,16 @@ class Game:
 
         self.screen.blit(player_text, (32, 32))
         self.screen.blit(camera_text, (32, 64))
+
+    def _draw_water(self):
+        for water_rect in self.game_map.water:
+            draw_rect = water_rect.move(-self.camera.x, -self.camera.y)
+
+            water_surface = pygame.Surface((draw_rect.width, draw_rect.height), pygame.SRCALPHA)
+
+            water_surface.fill((64, 158, 255, 110))
+
+            self.screen.blit(water_surface, draw_rect.topleft)
     
     # ---------------
     # ROOM STUFF
