@@ -27,6 +27,7 @@ class Player:
 
         self.first_jump_speed = -8.5
         self.double_jump_speed = -7.0
+        #self.water_jump_speed = -6.0 TO BE DECIDED
 
         self.jump_release_multiplier = 0.45
 
@@ -131,7 +132,7 @@ class Player:
                 self.velocity_y = self.first_jump_speed
                 self.double_jump_available = True
                 self.audio.jump_sound.play()
-                
+
             elif self.double_jump_available:
                 # Double jump
                 self.velocity_y = self.double_jump_speed

@@ -42,6 +42,7 @@ Current features:
 - shooting
 - death / restart
 - timer and death counter
+- water object layer from Tiled
 
 Planned / Experimental features:
 - moving platforms
@@ -50,5 +51,5 @@ Planned / Experimental features:
 - save files (also package assets better)
 - parallax background layers
 - dynamic sized rooms
-- camera follow player or camera snaps to next 'room' in a single tmx room
+- camera follow player or follow with padding
 
