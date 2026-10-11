@@ -4,7 +4,7 @@ from map_loader import MapLoader
 from input_manager import InputManager
 from audio_manager import AudioManager
 from blood_particle import BloodParticle
-from objects import Coin, Warp, SavePoint
+from objects import Coin, Warp, SavePoint, ActionTrigger, MovingSpike
 from animation import ScrollingText
 from paths import resource_path
 from camera import Camera
@@ -90,6 +90,13 @@ class Game:
         # Saves
         self.save_image = pygame.image.load(resource_path("assets/Save_0.png")).convert_alpha()
         self.save_active_image = pygame.image.load(resource_path("assets/Save_1.png")).convert_alpha()
+
+        # Note: these live here for the reason specifically for MOVING_spikes from actionTRIGGER
+        # our static spikes live in our tiled data
+        self.spike_images = { "up": pygame.image.load(resource_path("assets/SpikeUp.png")).convert_alpha(),
+                            "down": pygame.image.load(resource_path("assets/SpikeDown.png")).convert_alpha(),
+                            "left": pygame.image.load(resource_path("assets/SpikeLeft.png")).convert_alpha(),
+                            "right": pygame.image.load(resource_path("assets/SpikeRight.png")).convert_alpha() }
         
         # Room State
         self.game_map = None
@@ -100,6 +107,8 @@ class Game:
         self.coins = []
         self.warps = []
         self.saves = []
+        self.moving_spikes = []
+        self.triggers = []
         self.end_text = None
         self.end_font = pygame.font.Font(None, 36  )
 
@@ -162,7 +171,11 @@ class Game:
         self.player.respawn(self.respawn_x, self.respawn_y)
         self.player_dead = False
         self.blood_particles.clear()
-		
+        for spike in self.moving_spikes:
+            spike.reset()
+        for trigger in self.triggers:
+            trigger.reset()
+                
 	#-------------------------
 	# UPDATES
 	# ------------------------
@@ -187,8 +200,7 @@ class Game:
                 self.input.jump_released, 
                 self.game_map.collisions, 
                 self.game_map.width,
-                player_in_water
-            )
+                player_in_water )
 
             if self.input.shoot_pressed:
                 bullet = self.player.shoot()
@@ -199,6 +211,8 @@ class Game:
                 self._kill_player()
             
             self._update_hazards()
+            self._update_triggers()
+            self._update_moving_spikes()
         
             for coin in self.coins:
                 coin.update()
@@ -243,6 +257,25 @@ class Game:
     def _update_hazards(self):
         for hazard in self.game_map.hazards:
             if rect_hits_polygon(self.player.rect, hazard["points"]):
+                self._kill_player()
+                break
+
+    def _update_triggers(self):
+        for trigger in self.triggers:
+            if not trigger.check(self.player.rect):
+                continue
+            if trigger.action == "move_spike":
+                for spike in self.moving_spikes:
+                    if spike.name == trigger.target:
+                        spike.activate()
+                        break
+            trigger.activate()
+
+    def _update_moving_spikes(self):
+        for spike in self.moving_spikes:
+            spike.update()
+            polygon = spike.get_collision_polygon()
+            if rect_hits_polygon(self.player.rect, polygon):
                 self._kill_player()
                 break
 
@@ -304,7 +337,18 @@ class Game:
 
         for save in self.saves:
             save.draw(self.screen, self.camera)
-            
+
+        for spike in self.moving_spikes:
+            spike.draw(self.screen, self.camera)
+        # temp debug draw
+        """
+        for spike in self.moving_spikes:
+            polygon = [ ( x - self.camera.x, y - self.camera.y )
+                for x, y in spike.get_collision_polygon() ]
+            pygame.draw.polygon(self.screen, (255, 0, 0), polygon, 1 )
+        """ 
+
+        
         if not self.player_dead:
             self.player.draw(self.screen, self.camera)
 
@@ -392,6 +436,8 @@ class Game:
         self.coins = []
         self.warps = []
         self.saves = []
+        self.moving_spikes = []
+        self.triggers = []
 
         for collectable in self.game_map.collectables:
             if collectable["name"] == "coin":
@@ -406,6 +452,26 @@ class Game:
 
         for save_data in self.game_map.saves:
             self.saves.append(SavePoint(save_data["rect"], self.save_image, self.save_active_image, save_data["shootable"]))
+
+        for spike_data in self.game_map.moving_spikes:
+            direction = spike_data["direction"]
+            spike = MovingSpike(
+                spike_data["name"],
+                spike_data["rect"],
+                self.spike_images[direction],
+                direction,
+                spike_data["distance"],
+                spike_data["speed"] )
+            self.moving_spikes.append(spike)
+
+
+        for trigger_data in self.game_map.triggers:
+            trigger = ActionTrigger(
+                trigger_data["rect"],
+                trigger_data["action"],
+                trigger_data["target"],
+                trigger_data["once"] )
+            self.triggers.append(trigger)
 
         if self.current_room == "room_end.tmx":
             self.end_text = ScrollingText(

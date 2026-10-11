@@ -20,6 +20,8 @@ class MapLoader:
         self.collectables = []
         self.warps = []
         self.water = []
+        self.moving_spikes = []
+        self.triggers = []
 
         self._load_spawns()
         self._load_collisions()
@@ -28,6 +30,8 @@ class MapLoader:
         self._load_collectables()
         self._load_warps()
         self._load_water()
+        self._load_moving_spikes()
+        self._load_triggers()
     
     #-----------------------
     # LOADING FROM TMX
@@ -96,6 +100,33 @@ class MapLoader:
         for obj in layer:
             rect = pygame.Rect(round(obj.x), round(obj.y), round(obj.width), round(obj.height))
             self.water.append(rect)
+
+    def _load_moving_spikes(self):
+        layer = self._get_layer("MovingSpikes")
+        if layer is None:
+            return
+        for obj in layer:
+            rect = pygame.Rect( round(obj.x), round(obj.y), round(obj.width), round(obj.height) )
+            self.moving_spikes.append({
+                "name": obj.name,
+                "rect": rect,
+                "direction": obj.properties.get("direction", "up"),
+                "distance": obj.properties.get("distance", 96),
+                "speed": obj.properties.get("speed", 4) })
+
+
+    def _load_triggers(self):
+        layer = self._get_layer("Triggers")
+        if layer is None:
+            return
+        for obj in layer:
+            rect = pygame.Rect( round(obj.x), round(obj.y), round(obj.width), round(obj.height) )
+            self.triggers.append({
+                "name": obj.name,
+                "rect": rect,
+                "action": obj.properties.get("action"),
+                "target": obj.properties.get("target"),
+                "once": obj.properties.get("once", True)  })
 
     def _get_layer(self, name):
         try:

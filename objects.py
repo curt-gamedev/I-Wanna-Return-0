@@ -8,6 +8,20 @@ class Trigger:
 
     def check(self, player_rect):
         return self.active and self.rect.colliderect(player_rect)
+
+class ActionTrigger(Trigger):
+    def __init__(self, rect, action, target, once=True):
+        super().__init__(rect)
+        self.action = action
+        self.target = target
+        self.once = once
+
+    def activate(self):
+        if self.once:
+            self.active = False
+
+    def reset(self):
+        self.active = True
         
 class Warp(Trigger):
     def __init__(self, rect, target_room, locked=False):
@@ -118,6 +132,118 @@ class SavePoint:
 
         draw_rect = self.rect.move(-camera.x, -camera.y)
         screen.blit(image, draw_rect.topleft)
+
+
+class MovingSpike:
+
+    def __init__(self, name, rect, image, direction, distance, speed):
+        self.name = name
+
+        self.start_x = float(rect.x)
+        self.start_y = float(rect.y)
+
+        self.x = self.start_x
+        self.y = self.start_y
+
+        self.rect = rect.copy()
+
+        self.image = image
+
+        self.direction = direction
+        self.distance = distance
+        self.speed = speed
+
+        self.moving = False
+
+        self._set_target_position()
+
+
+    def _set_target_position(self):
+
+        self.target_x = self.start_x
+        self.target_y = self.start_y
+
+        if self.direction == "up":
+            self.target_y -= self.distance
+
+        elif self.direction == "down":
+            self.target_y += self.distance
+
+        elif self.direction == "left":
+            self.target_x -= self.distance
+
+        elif self.direction == "right":
+            self.target_x += self.distance
+
+    def get_collision_polygon(self):
+        x = self.rect.x
+        y = self.rect.y
+        w = self.rect.width
+        h = self.rect.height
+
+        if self.direction == "up":
+            return [
+                (x, y + h),
+                (x + w // 2, y),
+                (x + w, y + h) ]
+        elif self.direction == "down":
+            return [
+                (x, y),
+                (x + w // 2, y + h),
+                (x + w, y) ]
+        elif self.direction == "left":
+            return [
+                (x + w, y),
+                (x, y + h // 2),
+                (x + w, y + h) ]
+        elif self.direction == "right":
+            return [
+                (x, y),
+                (x + w, y + h // 2),
+                (x, y + h) ]
+        return []
+
+
+    def activate(self):
+        self.moving = True
+
+    def update(self):
+
+        if not self.moving:
+            return
+        if self.x < self.target_x:
+            self.x = min(self.x + self.speed, self.target_x)
+        elif self.x > self.target_x:
+            self.x = max(self.x - self.speed, self.target_x)
+        if self.y < self.target_y:
+            self.y = min(self.y + self.speed, self.target_y)
+        elif self.y > self.target_y:
+            self.y = max(self.y - self.speed, self.target_y)
+
+        self.rect.x = round(self.x)
+        self.rect.y = round(self.y)
+
+
+    def reset(self):
+
+        self.x = self.start_x
+        self.y = self.start_y
+
+        self.rect.x = round(self.x)
+        self.rect.y = round(self.y)
+
+        self.moving = False
+
+
+    def draw(self, screen, camera):
+
+        draw_rect = self.rect.move(
+            -camera.x,
+            -camera.y )
+
+        screen.blit(
+            self.image,
+            draw_rect.topleft )
 
 
 
