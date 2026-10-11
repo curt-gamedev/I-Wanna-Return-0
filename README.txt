@@ -34,7 +34,6 @@ Run:
 python main.py
 
 Current features:
-- classic-style movement and double jump
 - controller support
 - room loading
 - Tiled collisions / hazards / saves / warps / collectables
@@ -43,13 +42,13 @@ Current features:
 - death / restart
 - timer and death counter
 - water object layer from Tiled
+- dynamic sized room snapping
+- trigger-> moving spikes
 
 Planned / Experimental features:
 - moving platforms
 - wall jumps
-- trigger traps
-- save files (also package assets better)
+- save files (also package assets better when building a .exe)
 - parallax background layers
-- dynamic sized rooms
-- camera follow player or follow with padding
+- camera follow player or follow with padding, for different type of level making
 
