@@ -157,15 +157,8 @@ class MapLoader:
         for hazard in self.hazards:
             points = [
                 (x - camera.x, y - camera.y)
-                for x, y in hazard["points"]
-            ]
-
-            pygame.draw.polygon(
-                screen,
-                (255, 0, 0),
-                points,
-                1
-            )
+                for x, y in hazard["points"] ]
+            pygame.draw.polygon(screen, (255, 0, 0), points, 1)
 			
     def draw_debug_saves(self,screen, camera):
         for save in self.saves:
