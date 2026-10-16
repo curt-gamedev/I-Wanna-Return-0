@@ -179,7 +179,7 @@
   <object id="79" name="spike_down" x="192" y="256">
    <polygon points="0,0 32,0 16,32"/>
   </object>
-  <object id="96" x="129" y="64">
+  <object id="96" name="spike_down(editednodes)" x="129" y="64">
    <polygon points="0,0 30,0 30,3 15,32 0,3"/>
   </object>
  </objectgroup>
