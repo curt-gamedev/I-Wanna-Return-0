@@ -46,8 +46,8 @@ Current features:
 - trigger-> moving spikes
 
 Planned / Experimental features:
-- TODO: we need to be able to create spikes wherever we want instead of strictly 32x32 placement. 
-  the plan is to remove the spike sprites from the ground tiles and put them into the Hazards object layer
+- TODO: spikes are now in the hazards object layer and placed as an Insert Tile. we can still make This
+  better by reading the colliders from Tiled instead of generating our own. (we can remove and clean up some code)
 - moving platforms
 - wall jumps
 - save files (also package assets better when building a .exe)
