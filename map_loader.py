@@ -16,6 +16,7 @@ class MapLoader:
         self.spawns = {}
         self.collisions = []
         self.hazards = []
+        self.hazard_sprites = []
         self.saves = []
         self.collectables = []
         self.warps = []
@@ -32,6 +33,7 @@ class MapLoader:
         self._load_water()
         self._load_moving_spikes()
         self._load_triggers()
+
     
     #-----------------------
     # LOADING FROM TMX
@@ -52,17 +54,92 @@ class MapLoader:
             self.collisions.append(rect)
 	
     def _load_hazards(self):
+        '''
+        Hazard object
+        -- has image? YES
+        |       |
+        |       -- draw sprite
+        |       -- read direction
+        |       -- generate collision
+        |       -- continue
+        -- has image? NO
+                |
+                -- does it have polygon points?
+                    -- load old manual polygon
+                    #SUPER IMPORTANT FOR SOME EDGE CASE SCENARIOS THAT SHOULDNT COLLIDE IN TRADITIONAL FANGAME PHYSICS
+        '''
         layer = self._get_layer("Hazards")
         if layer is None:
             return
+
         for obj in layer:
+            # --------------------------------
+            # TILE-OBJECT HAZARDS
+            # e.g. automatically placed spikes
+            # --------------------------------
+            if getattr(obj, "image", None) is not None:
+
+                x = round(obj.x)
+                y = round(obj.y)
+                width = round(obj.width)
+                height = round(obj.height)
+
+                direction = obj.properties.get("direction")
+
+                self.hazard_sprites.append({
+                    "name": obj.name,
+                    "x": x,
+                    "y": y,
+                    "width": width,
+                    "height": height,
+                    "image": obj.image,
+                    "direction": direction
+                })
+
+                # Generate default spike collision
+                if direction == "up":
+                    polygon = [
+                        (x, y + height),
+                        (x + width // 2, y),
+                        (x + width, y + height) ]
+                elif direction == "down":
+                    polygon = [
+                        (x, y),
+                        (x + width // 2, y + height),
+                        (x + width, y) ]
+                elif direction == "left":
+                    polygon = [
+                        (x + width, y),
+                        (x, y + height // 2),
+                        (x + width, y + height) ]
+                elif direction == "right":
+                    polygon = [
+                        (x, y),
+                        (x + width, y + height // 2),
+                        (x, y + height) ]
+                else:
+                    polygon = None
+
+                if polygon is not None:
+                    self.hazards.append({"name": obj.name, "points": polygon})
+
+                # We completely handled this tile object.
+                # Don't also try treating it as a hand-drawn polygon. 
+                continue
+
+            # --------------------------------
+            # MANUALLY DRAWN POLYGON HAZARDS
+            # --------------------------------
             if not hasattr(obj, "points"):
                 continue
             if not obj.points:
                 continue
+
             polygon = []
+
             for point in obj.points:
                 polygon.append((round(point.x), round(point.y)))
+
             self.hazards.append({"name": obj.name, "points": polygon})
     
     def _load_saves(self):
@@ -169,6 +246,15 @@ class MapLoader:
         for collectable in self.collectables:
             debug_rect = collectable["rect"].move(-camera.x, -camera.y)
             pygame.draw.rect(screen, (255, 255, 0), debug_rect, 1)
+
+    def draw_hazard_sprites(self, screen, camera):
+        for hazard in self.hazard_sprites:
+            draw_x = hazard["x"] - camera.x
+            draw_y = hazard["y"] - camera.y
+
+            screen.blit(
+                hazard["image"],
+                (draw_x, draw_y))
 
 
 
