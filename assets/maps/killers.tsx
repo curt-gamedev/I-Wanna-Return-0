@@ -5,15 +5,27 @@
   <image source="../Cherry_0.png" width="21" height="24"/>
  </tile>
  <tile id="1">
+  <properties>
+   <property name="direction" value="down"/>
+  </properties>
   <image source="../SpikeDown.png" width="32" height="32"/>
  </tile>
  <tile id="2">
+  <properties>
+   <property name="direction" value="left"/>
+  </properties>
   <image source="../SpikeLeft.png" width="32" height="32"/>
  </tile>
  <tile id="3">
+  <properties>
+   <property name="direction" value="right"/>
+  </properties>
   <image source="../SpikeRight.png" width="32" height="32"/>
  </tile>
  <tile id="4">
+  <properties>
+   <property name="direction" value="up"/>
+  </properties>
   <image source="../SpikeUp.png" width="32" height="32"/>
  </tile>
 </tileset>
