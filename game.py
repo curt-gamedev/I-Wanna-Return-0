@@ -61,6 +61,8 @@ class Game:
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption(self.TITLE)
         self.clock = pygame.time.Clock()
+
+        self.debug_mode = False
         self.debug_font = pygame.font.Font(None, 32)
         
         # Input
@@ -139,8 +141,21 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+
+                #toggle debug mode
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_F3:
+                        self.debug_mode = not self.debug_mode
+                        print("debug_mode: ", self.debug_mode)
+                if (self.debug_mode and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
+                    mouse_x, mouse_y = event.pos
+                    world_x = mouse_x + self.camera.x 
+                    world_y = mouse_y + self.camera.y
+                    #print(event.pos)
+                    self.player.teleport(world_x, world_y)
                     
                 self.input.handle_event(event)
+
             self.input.update_held_input()
             
             # Update and Draw
@@ -322,6 +337,7 @@ class Game:
             self.screen.fill(self.DEFAULT_BACKGROUND_COLOR)
 
         self.game_map.draw(self.screen, self.camera.x, self.camera.y)
+        self.game_map.draw_hazard_sprites(self.screen,self.camera)
 
         for bullet in self.player.bullets:
             bullet.draw(self.screen, self.camera)
@@ -358,12 +374,13 @@ class Game:
             self._draw_game_over()
 	
         #DEBUG
-        self.game_map.draw_debug_collisions(self.screen,self.camera)
-        self.game_map.draw_debug_hazards(self.screen, self.camera)
-        self.game_map.draw_debug_saves(self.screen, self.camera)
-        self.game_map.draw_debug_collectables(self.screen, self.camera)
-        self._draw_debug_info()
-        self.player.show_hitbox = True
+        if self.debug_mode:
+            self.game_map.draw_debug_collisions(self.screen,self.camera)
+            self.game_map.draw_debug_hazards(self.screen, self.camera)
+            self.game_map.draw_debug_saves(self.screen, self.camera)
+            self.game_map.draw_debug_collectables(self.screen, self.camera)
+            self._draw_debug_info()
+            self.player.show_hitbox = True
 
         if self.end_text:
             self.end_text.draw(self.screen)
