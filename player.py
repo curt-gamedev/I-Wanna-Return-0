@@ -13,6 +13,7 @@ class Player:
     COLLIDER_OFFSET_X = 12
     COLLIDER_OFFSET_Y = 11
 
+
     def __init__(self, x, y, audio):
 
         # -------------------------
@@ -24,10 +25,12 @@ class Player:
 
         self.gravity = 0.4
         self.max_fall_speed = 9.0
+        self.water_max_fall_speed = 2.0
+
 
         self.first_jump_speed = -8.5
         self.double_jump_speed = -7.0
-        #self.water_jump_speed = -6.0 TO BE DECIDED
+        self.water_jump_speed = -8.5
 
         self.jump_release_multiplier = 0.45
 
@@ -149,8 +152,13 @@ class Player:
 
         self.velocity_y += self.gravity
 
-        if self.velocity_y > self.max_fall_speed:
-            self.velocity_y = self.max_fall_speed
+        if in_water:
+            current_max_fall_speed = self.water_max_fall_speed
+        else:
+            current_max_fall_speed = self.max_fall_speed
+
+        if self.velocity_y > current_max_fall_speed:
+            self.velocity_y = current_max_fall_speed
 
         # -------------------------
 		# VERTICAL MOVEMENT
@@ -268,7 +276,18 @@ class Player:
         self.double_jump_available = True
 
         self._sync_rect_from_position()
-                
+
+    # --------
+    # TELEPORT (for debug mode)
+    # --------
+    def teleport(self, x, y):
+        self.x = float(x)
+        self.y = float(y)
+
+        self.velocity_y = 0.0
+        self.grounded = False
+
+        self._sync_rect_from_position()
                 
     # --------------------------------------------------
     # DRAW
