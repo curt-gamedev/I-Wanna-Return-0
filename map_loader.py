@@ -57,16 +57,16 @@ class MapLoader:
         '''
         Hazard object
         -- has image? YES
-        |       |
-        |       -- draw sprite
-        |       -- read direction
-        |       -- generate collision
-        |       -- continue
+            -- draw sprite
+            -- read direction
+            -- generate collision
+            -- continue
         -- has image? NO
-                |
-                -- does it have polygon points?
-                    -- load old manual polygon
-                    #SUPER IMPORTANT FOR SOME EDGE CASE SCENARIOS THAT SHOULDNT COLLIDE IN TRADITIONAL FANGAME PHYSICS
+            -- does it have polygon points?
+            -- load old manual polygon #SUPER IMPORTANT FOR SOME EDGE CASE SCENARIOS THAT SHOULDNT COLLIDE IN TRADITIONAL FANGAME PHYSICS
+        -- has image and collider? 
+            YES - use it, 
+            YES and NO - use our code to generate our own collider based on 'direction' attribute  
         '''
         layer = self._get_layer("Hazards")
         if layer is None:
@@ -79,22 +79,65 @@ class MapLoader:
             # --------------------------------
             if getattr(obj, "image", None) is not None:
 
-                x = round(obj.x)
-                y = round(obj.y)
-                width = round(obj.width)
-                height = round(obj.height)
+                # Keep world/collider coordinates as floats.
+                x = float(obj.x)
+                y = float(obj.y)
+                width = float(obj.width)
+                height = float(obj.height)
 
-                direction = obj.properties.get("direction")
+                # Original dimensions of the tile image.
+                # These come from the tile definition in killers.tsx.
+                source_width = float( obj.properties.get("width") or obj.image.get_width() )
+                source_height = float( obj.properties.get("height") or obj.image.get_height() )
 
-                self.hazard_sprites.append({
+                # --------------------------------------------------
+                # SPRITE
+                # --------------------------------------------------
+
+                image = obj.image
+
+                # This also future-proofs us for resized tile objects.
+                draw_size = (round(width), round(height))
+
+                if image.get_size() != draw_size:
+                    image = pygame.transform.scale(image, draw_size)
+
+                self.hazard_sprites.append ({
                     "name": obj.name,
                     "x": x,
                     "y": y,
                     "width": width,
                     "height": height,
-                    "image": obj.image,
-                    "direction": direction
-                })
+                    "image": image, })
+
+                # ----------------------
+                # TILED-DEFINED COLLIDER
+                # ----------------------
+
+                colliders = obj.properties.get("colliders")
+
+                if colliders:
+                    scale_x = width / source_width
+                    scale_y = height / source_height
+                    for collider in colliders:
+                    # Works for polygons and also normal rectangle colliders.
+                        local_points = collider.apply_transformations()
+                        polygon = []
+                        for point_x, point_y in local_points:
+                            world_x = x + float(point_x) * scale_x
+                            world_y = y + float(point_y) * scale_y
+                            polygon.append((world_x, world_y))
+                        self.hazards.append ({
+                            "name": obj.name,
+                            "points": polygon })
+                    # Tiled collider handled this object completely.
+                    continue
+
+                # ----------------------------
+                # OLD DIRECTION-BASED FALLBACK
+                # ----------------------------
+
+                direction = obj.properties.get("direction")            
 
                 # Generate default spike collision
                 if direction == "up":
@@ -123,8 +166,6 @@ class MapLoader:
                 if polygon is not None:
                     self.hazards.append({"name": obj.name, "points": polygon})
 
-                # We completely handled this tile object.
-                # Don't also try treating it as a hand-drawn polygon. 
                 continue
 
             # --------------------------------
@@ -138,7 +179,7 @@ class MapLoader:
             polygon = []
 
             for point in obj.points:
-                polygon.append((round(point.x), round(point.y)))
+                polygon.append((float(point.x), float(point.y)))
 
             self.hazards.append({"name": obj.name, "points": polygon})
     
