@@ -44,6 +44,7 @@ Current features:
 - water object layer from Tiled
 - dynamic sized room snapping
 - trigger-> moving spikes
+- F3 debug mode (includes mouse click to teleport player to anywhere on screen)
 
 Planned / Experimental features:
 - TODO: spikes are now in the hazards object layer and placed as an Insert Tile. we can still make This
