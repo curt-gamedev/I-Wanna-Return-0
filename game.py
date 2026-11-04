@@ -153,6 +153,9 @@ class Game:
                     world_y = mouse_y + self.camera.y
                     #print(event.pos)
                     self.player.teleport(world_x, world_y)
+                    #self explanatory - we make our respawn point where our new player teleported to
+                    self.respawn_x = self.player.x
+                    self.respawn_y = self.player.y
                     
                 self.input.handle_event(event)
 

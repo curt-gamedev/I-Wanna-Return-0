@@ -65,8 +65,7 @@ class Player:
             round(self.x) + self.COLLIDER_OFFSET_X,
             round(self.y) + self.COLLIDER_OFFSET_Y,
             self.COLLIDER_WIDTH,
-            self.COLLIDER_HEIGHT
-        )
+            self.COLLIDER_HEIGHT )
 
         # Animation
         self.animation = PlayerAnimation()
@@ -89,8 +88,7 @@ class Player:
         jump_released, 
         collision_rects, 
         map_width, 
-        in_water
-        ):
+        in_water ):
 
         # -------------------------
         # HORIZONTAL MOVEMENT
