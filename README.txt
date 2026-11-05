@@ -36,7 +36,7 @@ python main.py
 Current features:
 - controller support
 - room loading
-- Tiled collisions / hazards / saves / warps / collectables
+- Tiled collisions / hazards / saves / warps / collectables, etc. each on their own object layer.
 - animated coins, must collect each coin to activate a warp
 - shooting
 - death / restart
@@ -47,11 +47,11 @@ Current features:
 - F3 debug mode (includes mouse click to teleport player to anywhere on screen)
 
 Planned / Experimental features:
-- TODO: spikes are now in the hazards object layer and placed as an Insert Tile. we can still make This
-  better by reading the colliders from Tiled instead of generating our own. (we can remove and clean up some code)
 - moving platforms
+- resizable window / full screen maybe. 
 - wall jumps
 - save files (also package assets better when building a .exe)
 - parallax background layers
 - camera follow player or follow with padding, for different type of level making
+- button remapping for controller/keyboard maybe? (maybe build its own reusable script for other games? or try find one already made?)
 
