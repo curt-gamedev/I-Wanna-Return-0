@@ -4,7 +4,7 @@ from map_loader import MapLoader
 from input_manager import InputManager
 from audio_manager import AudioManager
 from blood_particle import BloodParticle
-from objects import Coin, Warp, SavePoint, ActionTrigger, MovingSpike
+from objects import *
 from animation import ScrollingText
 from paths import resource_path
 from camera import Camera
@@ -92,6 +92,8 @@ class Game:
         # Saves
         self.save_image = pygame.image.load(resource_path("assets/Save_0.png")).convert_alpha()
         self.save_active_image = pygame.image.load(resource_path("assets/Save_1.png")).convert_alpha()
+        # Moving platforms
+        self.moving_platform_image = pygame.image.load(resource_path("assets/MovingPlatform.png")).convert_alpha()
 
         # Note: these live here for the reason specifically for MOVING_spikes from actionTRIGGER
         # our static spikes live in our tiled data
@@ -111,6 +113,7 @@ class Game:
         self.saves = []
         self.moving_spikes = []
         self.triggers = []
+        self.moving_platforms = []
         self.end_text = None
         self.end_font = pygame.font.Font(None, 36  )
 
@@ -193,13 +196,15 @@ class Game:
             spike.reset()
         for trigger in self.triggers:
             trigger.reset()
+        for platform in self.moving_platforms:
+            platform.reset()
                 
 	#-------------------------
 	# UPDATES
 	# ------------------------
     def update(self):
-
         self.camera.update_snap(self.player.rect, self.game_map.width, self.game_map.height)
+        self._update_moving_platforms()
 
         if self.input.restart_pressed:
             if not self.player_dead:
@@ -211,12 +216,14 @@ class Game:
             player_in_water = any (self.player.rect.colliderect(water_rect)
                 for water_rect in self.game_map.water )
 
+            current_collisions = (self.game_map.collisions + [platform.rect for platform in self.moving_platforms])
+
             self.player.update(
                 self.input.move_left, 
                 self.input.move_right, 
                 self.input.jump_pressed, 
                 self.input.jump_released, 
-                self.game_map.collisions, 
+                current_collisions, 
                 self.game_map.width,
                 player_in_water )
 
@@ -297,6 +304,13 @@ class Game:
                 self._kill_player()
                 break
 
+    def _update_moving_platforms(self):
+        for platform in self.moving_platforms:
+            was_riding = platform.player_is_on_top(self.player.rect)
+            platform.update()
+            if was_riding:
+                self.player.move_with_platform(platform.dx, platform.dy)
+
     def _update_saves(self):
         for save in self.saves:
             if save.shootable:
@@ -359,15 +373,10 @@ class Game:
 
         for spike in self.moving_spikes:
             spike.draw(self.screen, self.camera)
-        # temp debug draw
-        """
-        for spike in self.moving_spikes:
-            polygon = [ ( x - self.camera.x, y - self.camera.y )
-                for x, y in spike.get_collision_polygon() ]
-            pygame.draw.polygon(self.screen, (255, 0, 0), polygon, 1 )
-        """ 
 
-        
+        for platform in self.moving_platforms:
+            platform.draw(self.screen, self.camera)
+
         if not self.player_dead:
             self.player.draw(self.screen, self.camera)
 
@@ -458,6 +467,7 @@ class Game:
         self.saves = []
         self.moving_spikes = []
         self.triggers = []
+        self.moving_platforms = []
 
         for collectable in self.game_map.collectables:
             if collectable["name"] == "coin":
@@ -492,6 +502,16 @@ class Game:
                 trigger_data["target"],
                 trigger_data["once"] )
             self.triggers.append(trigger)
+
+        for platform_data in self.game_map.moving_platforms:
+            platform = MovingPlatform(
+                platform_data["name"],
+                platform_data["rect"],
+                self.moving_platform_image,
+                platform_data["direction"],
+                platform_data["distance"],
+                platform_data["speed"] )
+            self.moving_platforms.append(platform)
 
         if self.current_room == "room_end.tmx":
             self.end_text = ScrollingText(
