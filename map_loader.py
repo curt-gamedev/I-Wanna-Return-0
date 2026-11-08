@@ -23,6 +23,7 @@ class MapLoader:
         self.water = []
         self.moving_spikes = []
         self.triggers = []
+        self.moving_platforms = []
 
         self._load_spawns()
         self._load_collisions()
@@ -33,6 +34,7 @@ class MapLoader:
         self._load_water()
         self._load_moving_spikes()
         self._load_triggers()
+        self._load_moving_platforms()
 
     
     #-----------------------
@@ -245,6 +247,19 @@ class MapLoader:
                 "action": obj.properties.get("action"),
                 "target": obj.properties.get("target"),
                 "once": obj.properties.get("once", True)  })
+
+    def _load_moving_platforms(self):
+        layer = self._get_layer("MovingPlatforms")
+        if layer is None:
+            return
+        for obj in layer:
+            rect = pygame.Rect( round(obj.x), round(obj.y), round(obj.width), round(obj.height) )
+            self.moving_platforms.append({
+                "name": obj.name,
+                "rect": rect,
+                "direction": obj.properties.get("direction", "right"),
+                "distance": obj.properties.get("distance", 96),
+                "speed": obj.properties.get("speed", 2.0) })
 
     def _get_layer(self, name):
         try:
