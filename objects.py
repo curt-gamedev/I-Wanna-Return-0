@@ -245,5 +245,72 @@ class MovingSpike:
             self.image,
             draw_rect.topleft )
 
+class MovingPlatform:
+    def __init__(self, name, rect, image, direction, distance, speed):
+        self.name = name
+        self.start_x = float(rect.x)
+        self.start_y = float(rect.y)
+        self.x = self.start_x
+        self.y = self.start_y
+        self.rect = rect.copy()
+        self.image = image
+        self.direction = direction
+        self.distance = float(distance)
+        self.speed = float(speed)
+        self.progress = 0.0
+        self.travel_sign = 1 # 1 = travelling away from start. -1 = travelling back to start
+        self.dx = 0
+        self.dy = 0
 
+    def update(self):
+        old_x = self.rect.x
+        old_y = self.rect.y
+        self.progress += self.speed * self.travel_sign
+
+        if self.progress >= self.distance:
+            self.progress = self.distance
+            self.travel_sign = -1
+        elif self.progress <= 0:
+            self.progress = 0
+            self.travel_sign = 1
+
+        move_x = 0.0
+        move_y = 0.0
+
+        if self.direction == "right":
+            move_x = self.progress
+        elif self.direction == "left":
+            move_x = -self.progress
+        elif self.direction == "down": 
+            move_y = self.progress
+        elif self.direction == "up":
+            move_y = -self.progress
+
+        self.x = self.start_x + move_x
+        self.y = self.start_y + move_y
+
+        self.rect.x = round(self.x)
+        self.rect.y = round(self.y)
+
+        self.dx = self.rect.x - old_x
+        self.dy = self.rect.y - old_y
+
+    def player_is_on_top(self, player_rect):
+        horizontally_overlapping = (player_rect.right > self.rect.left and player_rect.left < self.rect.right)
+        standing_on_top = abs(player_rect.bottom - self.rect.top) <= 2
+        return horizontally_overlapping and standing_on_top
+
+    def reset(self):
+        self.x = self.start_x
+        self.y = self.start_y
+        self.rect.x = round(self.start_x)
+        self.rect.y = round(self.start_y)
+        self.progress = 0.0
+        self.travel_sign = 1
+        self.dx = 0
+        self.dy = 0
+
+    def draw(self, screen, camera):
+        draw_rect = self.rect.move(-camera.x, -camera.y)
+        screen.blit(self.image, draw_rect.topleft)
 
