@@ -270,7 +270,6 @@ class Player:
         self.velocity_y = 0.0
         self.grounded = False
 
-        # Use whichever jump-state system you're currently using:
         self.double_jump_available = True
 
         self._sync_rect_from_position()
@@ -305,8 +304,7 @@ class Player:
         if image is None:
             return
 
-        # Our source art faces right.
-        # Flip it when facing left.
+        # Source art faces right
         if not self.facing_right:
             image = pygame.transform.flip(image, True, False)
 
