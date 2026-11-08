@@ -286,6 +286,14 @@ class Player:
         self.grounded = False
 
         self._sync_rect_from_position()
+
+    # ---------
+    # MOVING PLATFORMS
+    # ---------
+    def move_with_platform(self, dx, dy):
+        self.x += dx
+        self.y += dy
+        self._sync_rect_from_position
                 
     # --------------------------------------------------
     # DRAW
