@@ -17,7 +17,7 @@ Keyboard:
 
 Controller:
 - Move: Left Stick / D-Pad
-- Jump / Double Jump: A / Cross
+- Jump / Double Jump: A / Cross 
 - Shoot: X / Square
 - Restart: Y / Triangle
 
@@ -45,11 +45,12 @@ Current features:
 - trigger-> moving spikes
 - F3 debug mode (includes mouse click to teleport player to anywhere on screen)
 
-Planned / Experimental features:
+Planned / Experimental features (TODO LIST):
 - resizable window / full screen maybe. 
 - parallax background layers
 - wall jumps
 - save files (also package assets better when building a .exe)
 - camera follow player or follow with padding, for different type of level making
+- 'cherry' collider and simple boss fight. try to implement object pooling code from the unity project and shmup style bullet patterns    
 - button remapping for controller/keyboard maybe? (maybe build its own reusable script for other games? or try find one already made?)
 
