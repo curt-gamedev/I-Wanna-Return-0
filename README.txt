@@ -44,13 +44,20 @@ Current features:
 - dynamic sized room snapping
 - trigger-> moving spikes
 - F3 debug mode (includes mouse click to teleport player to anywhere on screen)
+- resizeable/maximised window
 
 Planned / Experimental features (TODO LIST):
-- resizable window / full screen maybe. 
-- parallax background layers
-- wall jumps
-- save files (also package assets better when building a .exe)
+- parallax background layers 
+    (under construction still. i have it working in a seperate project)
+- wall jumps (been avoiding this due to never being a huge fan of iwbtg style wall jumps, 
+    and still traumatized from previous player movement programming but i will eventually try to get this in)
+- save files 
+    (also perhaps we can package assets better when building a .exe)
 - camera follow player or follow with padding, for different type of level making
-- 'cherry' collider and simple boss fight. try to implement object pooling code from the unity project and shmup style bullet patterns    
-- button remapping for controller/keyboard maybe? (maybe build its own reusable script for other games? or try find one already made?)
+    (this is part of parallax_background)
+- 'cherry' collider and simple boss fight. 
+    try to implement object pooling code from the unity project and shmup style bullet patterns    
+- button remapping for controller/keyboard maybe? 
+    (maybe build its own reusable script? or try find an open source one already made?)
+- main menu and pause menu
 
