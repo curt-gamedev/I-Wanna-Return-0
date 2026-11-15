@@ -8,43 +8,7 @@ from objects import *
 from animation import ScrollingText
 from paths import resource_path
 from camera import Camera
-
-def point_in_polygon(point, polygon):
-    x, y = point
-    inside = False
-    j = len(polygon) - 1
-    for i in range(len(polygon)):
-        xi, yi = polygon[i]
-        xj, yj = polygon[j]
-        if ((yi > y) != (yj > y)):
-            intersect_x = ((xj - xi) * (y - yi) / (yj - yi) + xi)
-            if x < intersect_x:
-                inside = not inside
-        j = i
-    return inside
-
-def rect_hits_polygon(rect, polygon):
-    # 1. Is any corner of the player inside the polygon?
-    corners = [rect.topleft, rect.topright, rect.bottomleft, rect.bottomright]
-
-    for corner in corners:
-        if point_in_polygon(corner, polygon):
-            return True
-
-    # 2. Is any polygon point inside the player?
-    for point in polygon:
-        if rect.collidepoint(point):
-            return True
-
-    # 3. Does any polygon edge cross the player's rectangle?
-    for i in range(len(polygon)):
-        start = polygon[i]
-        end = polygon[(i + 1) % len(polygon)]
-
-        if rect.clipline(start, end):
-            return True
-
-    return False
+from utils import rect_hits_polygon
 
     
 class Game:
@@ -57,8 +21,9 @@ class Game:
     
     def __init__(self):
         pygame.init()
-        
-        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+
+        self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE)
+        self.screen = pygame.Surface((self.WIDTH, self.HEIGHT))
         pygame.display.set_caption(self.TITLE)
         self.clock = pygame.time.Clock()
 
@@ -139,7 +104,9 @@ class Game:
         while self.running:
             self.clock.tick(self.FPS)
 
+            # ------
             # Events
+            # ------
             self.input.begin_frame()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -151,14 +118,16 @@ class Game:
                         self.debug_mode = not self.debug_mode
                         print("debug_mode: ", self.debug_mode)
                 if (self.debug_mode and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1):
-                    mouse_x, mouse_y = event.pos
-                    world_x = mouse_x + self.camera.x 
-                    world_y = mouse_y + self.camera.y
-                    #print(event.pos)
-                    self.player.teleport(world_x, world_y)
-                    #self explanatory - we make our respawn point where our new player teleported to
-                    self.respawn_x = self.player.x
-                    self.respawn_y = self.player.y
+                    game_position = self._window_to_game_position(event.pos)
+                    if game_position is not None:
+                        game_x, game_y = game_position
+                        world_x = game_x + self.camera.x - 16 
+                        world_y = game_y + self.camera.y - 16
+                        #print(event.pos)
+                        self.player.teleport(world_x, world_y)
+                        #self explanatory - we make our respawn point where our new player teleported to
+                        self.respawn_x = self.player.x
+                        self.respawn_y = self.player.y
                     
                 self.input.handle_event(event)
 
@@ -342,6 +311,27 @@ class Game:
         time_text = f"{hours}:{minutes:02}:{seconds:02}"
         pygame.display.set_caption(f"{self.TITLE} | Deaths: {self.deaths} | Time: {time_text}")
 
+    def _window_to_game_position(self, position):
+        mouse_x, mouse_y = position
+        window_width, window_height = pygame.display.get_window_size()
+        scale_x = window_width / self.WIDTH
+        scale_y = window_height / self.HEIGHT
+        scale = min(scale_x, scale_y)
+        scaled_width = self.WIDTH * scale
+        scaled_height = self.HEIGHT * scale
+        offset_x = (window_width - scaled_width) / 2
+        offset_y = (window_height - scaled_height) / 2
+        game_x = (mouse_x - offset_x) / scale
+        game_y = (mouse_y - offset_y) / scale
+
+        if not (0 <= game_x < self.WIDTH):
+            return None
+
+        if not (0 <= game_y < self.HEIGHT):
+            return None
+
+        return game_x, game_y
+
 	
 	#-------------------------
 	# DRAW
@@ -394,9 +384,24 @@ class Game:
             self._draw_debug_info()
             self.player.show_hitbox = True
 
+        #ending room text
         if self.end_text:
             self.end_text.draw(self.screen)
-	
+
+        #drawing the screen to window (for resizable)
+        window_width, window_height = pygame.display.get_window_size()
+        scale_x = window_width / self.WIDTH
+        scale_y = window_height / self.HEIGHT
+        scale = min(scale_x, scale_y)
+        scaled_width = max(1, int(self.WIDTH * scale))
+        scaled_height = max(1, int(self.HEIGHT * scale))
+        offset_x = (window_width - scaled_width) // 2
+        offset_y = (window_height - scaled_height) // 2
+        self.window.fill((0,0,0))
+        scaled_screen = pygame.transform.scale(self.screen, (scaled_width, scaled_height))
+
+        self.window.blit(scaled_screen, (offset_x, offset_y))
+
         pygame.display.flip()
 	
     def _draw_game_over(self):
