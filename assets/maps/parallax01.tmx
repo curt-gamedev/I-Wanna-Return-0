@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="150" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="7">
  <properties>
+  <property name="background" value="sky1.png"/>
   <property name="camera_mode" value="horizontal_follow"/>
  </properties>
  <tileset firstgid="1" source="ground.tsx"/>
