@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.2" name="killers" tilewidth="32" tileheight="32" tilecount="10" columns="0">
+<tileset version="1.10" tiledversion="1.12.2" name="killers" tilewidth="32" tileheight="32" tilecount="14" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="../Cherry_0.png" width="21" height="24"/>
@@ -85,6 +85,38 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0">
     <polygon points="0,0 8,16 16,0"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="10">
+  <image source="../SpikeUp-metal.png" width="32" height="32"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="32">
+    <polygon points="0,0 16,-32 32,0"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="11">
+  <image source="../SpikeRight-metal.png" width="32" height="32"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,16 0,32"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="12">
+  <image source="../SpikeLeft-metal.png" width="32" height="32"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="16">
+    <polygon points="0,0 32,-16 32,16"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="13">
+  <image source="../SpikeDown-metal.png" width="32" height="32"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="0">
+    <polygon points="0,0 32,0 16,32"/>
    </object>
   </objectgroup>
  </tile>
