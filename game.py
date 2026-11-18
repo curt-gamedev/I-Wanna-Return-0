@@ -86,7 +86,7 @@ class Game:
         self.camera = Camera(self.WIDTH, self.HEIGHT)
 
         # Load starting room 
-        self.load_room("room_snapping_test.tmx")
+        self.load_room("parallax01.tmx")
 
         self.second_timer = 0 # for the once per second update checks
         self.deaths = 0
@@ -172,7 +172,8 @@ class Game:
 	# UPDATES
 	# ------------------------
     def update(self):
-        self.camera.update_snap(self.player.rect, self.game_map.width, self.game_map.height)
+        self.camera.update(self.player.rect, self.game_map.width, self.game_map.height, self.game_map.camera_mode)
+
         self._update_moving_platforms()
 
         if self.input.restart_pressed:
@@ -464,7 +465,7 @@ class Game:
             self.respawn_y = spawn_y
 
             self.player.respawn(spawn_x, spawn_y)
-            self.camera.update_snap(self.player.rect, self.game_map.width, self.game_map.height)
+            self.camera.update(self.player.rect, self.game_map.width, self.game_map.height, self.game_map.camera_mode)
 
         # Room Objects
         self.coins = []
