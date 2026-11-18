@@ -12,6 +12,9 @@ class MapLoader:
         # Optional background image filename from Tiled map properties
         # If missing, Game draws the default sky-blue background.
         self.background: str | None = self.tmx_data.properties.get("background")
+        
+        # In Tiled we add a map property (or leave empty for "single rooms" or "camera snapping" rooms (which are based on mapsize))
+        self.camera_mode = self.tmx_data.properties.get("camera_mode", "snap") #look for propery camera_mode, "snap" if there is none
 
         self.spawns = {}
         self.collisions = []
