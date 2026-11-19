@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.12.2" name="killers" tilewidth="32" tileheight="32" tilecount="14" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0">
-  <image source="../Cherry_0.png" width="21" height="24"/>
- </tile>
  <tile id="1">
   <properties>
    <property name="direction" value="down"/>
@@ -117,6 +114,14 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0">
     <polygon points="0,0 32,0 16,32"/>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="14">
+  <image source="../Cherry_0.png" width="20" height="24"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="9">
+    <polygon points="0,0 6,-6 13,-6 20,0 20,7 12,15 8,15 0,8"/>
    </object>
   </objectgroup>
  </tile>
