@@ -45,6 +45,8 @@ Current features:
 - trigger-> moving spikes
 - F3 debug mode (includes mouse click to teleport player to anywhere on screen)
 - resizeable/maximised window
+- in map properties in tiled make string for camera_mode - horizontal_follow or leave blank for single rooms . room snapping
+  (each room must be 800x608)
 
 Planned / Experimental features (TODO LIST):
 - parallax background layers 
@@ -53,8 +55,6 @@ Planned / Experimental features (TODO LIST):
     and still traumatized from previous player movement programming but i will eventually try to get this in)
 - save files 
     (also perhaps we can package assets better when building a .exe)
-- camera follow player or follow with padding, for different type of level making
-    (this is part of parallax_background)
 - 'cherry' collider and simple boss fight. 
     try to implement object pooling code from the unity project and shmup style bullet patterns    
 - button remapping for controller/keyboard maybe? 
