@@ -14,7 +14,7 @@ class MapLoader:
         self.background: str | None = self.tmx_data.properties.get("background")
         
         # In Tiled we add a map property (or leave empty for "single rooms" or "camera snapping" rooms (which are based on mapsize))
-        self.camera_mode = self.tmx_data.properties.get("camera_mode", "snap") #look for propery camera_mode, "snap" if there is none
+        self.camera_mode = self.tmx_data.properties.get("camera_mode", "snap") # look for propery camera_mode, "snap" if there is none
 
         self.spawns = {}
         self.collisions = []
