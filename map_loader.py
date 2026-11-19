@@ -16,6 +16,11 @@ class MapLoader:
         # In Tiled we add a map property (or leave empty for "single rooms" or "camera snapping" rooms (which are based on mapsize))
         self.camera_mode = self.tmx_data.properties.get("camera_mode", "snap") # look for propery camera_mode, "snap" if there is none
 
+        # If our Tiled map properties has this - get it. (if it doesnt we'll get None) 
+        self.parallax_01       = self.tmx_data.properties.get("parallax_01")
+        self.parallax_01_speed = self.tmx_data.properties.get("parallax_01_speed", 0.00)
+        self.parallax_01_y     = self.tmx_data.properties.get("parallax_01_y", 0)
+
         self.spawns = {}
         self.collisions = []
         self.hazards = []
