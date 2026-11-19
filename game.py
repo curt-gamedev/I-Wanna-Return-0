@@ -67,9 +67,10 @@ class Game:
                             "left": pygame.image.load(resource_path("assets/SpikeLeft.png")).convert_alpha(),
                             "right": pygame.image.load(resource_path("assets/SpikeRight.png")).convert_alpha() }
         
-        # Room State
+        # Room state / Tiled data
         self.game_map = None
         self.background = None
+        self.parallax_01 = None
         self.current_room = None
 
         # Dynamic room objects
@@ -344,6 +345,9 @@ class Game:
         else:
             self.screen.fill(self.DEFAULT_BACKGROUND_COLOR)
 
+        if self.parallax_01:
+            self.screen.blit(self.parallax_01, (-self.camera.x * self.game_map.parallax_01_speed, self.game_map.parallax_01_y))
+
         self.game_map.draw(self.screen, self.camera.x, self.camera.y)
         self.game_map.draw_hazard_sprites(self.screen,self.camera)
 
@@ -452,6 +456,11 @@ class Game:
             self.background = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.background}")).convert()
         else:
             self.background = None
+
+        if self.game_map.parallax_01:
+            self.parallax_01 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_01}")).convert_alpha()
+        else:
+            self.parallax_01 = None
 
         # ------------
         # Player Spawn
