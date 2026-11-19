@@ -183,12 +183,12 @@ class Game:
             return
         
         if not self.player_dead:
-            player_in_water = any (self.player.rect.colliderect(water_rect)
+            player_in_water = any ( self.player.rect.colliderect(water_rect)
                 for water_rect in self.game_map.water )
 
             current_collisions = (self.game_map.collisions + [platform.rect for platform in self.moving_platforms])
 
-            self.player.update(
+            self.player.update (
                 self.input.move_left, 
                 self.input.move_right, 
                 self.input.jump_pressed, 
@@ -418,14 +418,12 @@ class Game:
         player_text = self.debug_font.render(
             f"player: {self.player.rect.x}, {self.player.rect.y}",
             True,
-            (255, 255, 255)
-        )
+            (255, 255, 255) )
 
         camera_text = self.debug_font.render(
             f"camera: {self.camera.x}, {self.camera.y}",
             True,
-            (255, 255, 255)
-        )
+            (255, 255, 255) )
 
         self.screen.blit(player_text, (32, 32))
         self.screen.blit(camera_text, (32, 64))
@@ -499,7 +497,6 @@ class Game:
                 spike_data["distance"],
                 spike_data["speed"] )
             self.moving_spikes.append(spike)
-
 
         for trigger_data in self.game_map.triggers:
             trigger = ActionTrigger(
