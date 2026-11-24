@@ -346,7 +346,14 @@ class Game:
             self.screen.fill(self.DEFAULT_BACKGROUND_COLOR)
 
         if self.parallax_01:
-            self.screen.blit(self.parallax_01, (-self.camera.x * self.game_map.parallax_01_speed, self.game_map.parallax_01_y))
+            parallax_x = -self.camera.x * self.game_map.parallax_01_speed
+            cycle_width = self.parallax_01.width
+            scroll_distance = -parallax_x
+            current_offset = scroll_distance % cycle_width
+            draw_x = -current_offset
+            while draw_x < self.width:
+                self.screen.blit(self.parallax_01, (draw_x, self.game_map.parallax_01_y))
+                draw_x += self.parallax_01.width
 
         self.game_map.draw(self.screen, self.camera.x, self.camera.y)
         self.game_map.draw_hazard_sprites(self.screen,self.camera)
