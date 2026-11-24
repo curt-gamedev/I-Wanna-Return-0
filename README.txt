@@ -55,7 +55,7 @@ Planned / Experimental features (TODO LIST):
     and still traumatized from previous player movement programming but i will eventually try to get this in)
 - save files 
     (also perhaps we can package assets better when building a .exe)
-- 'cherry' collider and simple boss fight. 
+- simple boss fight. 
     try to implement object pooling code from the unity project and shmup style bullet patterns    
 - button remapping for controller/keyboard maybe? 
     (maybe build its own reusable script? or try find an open source one already made?)
