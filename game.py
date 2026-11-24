@@ -351,7 +351,7 @@ class Game:
             scroll_distance = -parallax_x
             current_offset = scroll_distance % cycle_width
             draw_x = -current_offset
-            while draw_x < self.width:
+            while draw_x < cycle_width:
                 self.screen.blit(self.parallax_01, (draw_x, self.game_map.parallax_01_y))
                 draw_x += self.parallax_01.width
 
