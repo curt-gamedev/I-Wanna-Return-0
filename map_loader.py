@@ -285,6 +285,7 @@ class MapLoader:
                 for x, y, image in layer.tiles():
                     world_x = x * self.tmx_data.tilewidth
                     world_y = y * self.tmx_data.tileheight
+                    world_y -= max(0, image.get_height() - self.tmx_data.tileheight)
                     screen_x = world_x - camera_x
                     screen_y = world_y - camera_y
                     screen.blit(image, (screen_x, screen_y) )
