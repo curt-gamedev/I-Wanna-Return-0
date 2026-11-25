@@ -71,6 +71,7 @@ class Game:
         self.game_map = None
         self.background = None
         self.parallax_01 = None
+        self.parallax_02 = None
         self.current_room = None
 
         # Dynamic room objects
@@ -346,16 +347,18 @@ class Game:
             self.screen.fill(self.DEFAULT_BACKGROUND_COLOR)
 
         if self.parallax_01:
-            parallax_x = -self.camera.x * self.game_map.parallax_01_speed
-            cycle_width = self.parallax_01.width
-            scroll_distance = -parallax_x
-            current_offset = scroll_distance % cycle_width
-            draw_x = -current_offset
-            while draw_x < cycle_width:
-                self.screen.blit(self.parallax_01, (draw_x, self.game_map.parallax_01_y))
-                draw_x += self.parallax_01.width
+            self._draw_repeating_parallax (
+                self.parallax_01, 
+                self.game_map.parallax_01_speed, 
+                self.game_map.parallax_01_y )
+        if self.parallax_02:
+            self._draw_repeating_parallax (
+                self.parallax_02, 
+                self.game_map.parallax_02_speed, 
+                self.game_map.parallax_02_y )
 
         self.game_map.draw(self.screen, self.camera.x, self.camera.y)
+
         self.game_map.draw_hazard_sprites(self.screen,self.camera)
 
         for bullet in self.player.bullets:
@@ -415,6 +418,16 @@ class Game:
         self.window.blit(scaled_screen, (offset_x, offset_y))
 
         pygame.display.flip()
+
+    def _draw_repeating_parallax(self, image, speed, y):
+        parallax_x = -self.camera.x * speed
+        cycle_width = image.width
+        scroll_distance = -parallax_x
+        current_offset = scroll_distance % cycle_width
+        draw_x = -current_offset
+        while draw_x < self.WIDTH:
+            self.screen.blit(image, (draw_x, y))
+            draw_x += image.width
 	
     def _draw_game_over(self):
         game_over_text = self.game_over_font.render("GAME OVER", True, (255, 255, 255))
@@ -468,6 +481,11 @@ class Game:
             self.parallax_01 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_01}")).convert_alpha()
         else:
             self.parallax_01 = None
+
+        if self.game_map.parallax_01:
+           self.parallax_02 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_02}")).convert_alpha()
+        else:
+            self.parallax_02 = None
 
         # ------------
         # Player Spawn
