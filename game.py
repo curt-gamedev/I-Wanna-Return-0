@@ -10,7 +10,6 @@ from paths import resource_path
 from camera import Camera
 from utils import rect_hits_polygon
 
-    
 class Game:
 
     WIDTH = 800
@@ -20,6 +19,7 @@ class Game:
     TITLE = "I Wanna Return 0"
     
     def __init__(self):
+        
         pygame.init()
 
         self.window = pygame.display.set_mode((self.WIDTH, self.HEIGHT), pygame.RESIZABLE)
@@ -62,9 +62,9 @@ class Game:
 
         # Note: these live here for the reason specifically for MOVING_spikes from actionTRIGGER
         # our static spikes live in our tiled data
-        self.spike_images = { "up": pygame.image.load(resource_path("assets/SpikeUp-metal.png")).convert_alpha(),
-                            "down": pygame.image.load(resource_path("assets/SpikeDown-metal.png")).convert_alpha(),
-                            "left": pygame.image.load(resource_path("assets/SpikeLeft-metal.png")).convert_alpha(),
+        self.spike_images = {  "up": pygame.image.load(resource_path("assets/SpikeUp-metal.png")).convert_alpha(),
+                             "down": pygame.image.load(resource_path("assets/SpikeDown-metal.png")).convert_alpha(),
+                             "left": pygame.image.load(resource_path("assets/SpikeLeft-metal.png")).convert_alpha(),
                             "right": pygame.image.load(resource_path("assets/SpikeRight-metal.png")).convert_alpha() }
         
         # Room state / Tiled data
@@ -83,7 +83,7 @@ class Game:
         self.triggers = []
         self.moving_platforms = []
         self.end_text = None
-        self.end_font = pygame.font.Font(None, 36  )
+        self.end_font = pygame.font.Font(None, 36)
 
         # Initialize a camera
         self.camera = Camera(self.WIDTH, self.HEIGHT)
@@ -124,7 +124,7 @@ class Game:
                     game_position = self._window_to_game_position(event.pos)
                     if game_position is not None:
                         game_x, game_y = game_position
-                        world_x = game_x + self.camera.x - 16 
+                        world_x = game_x + self.camera.x - 16
                         world_y = game_y + self.camera.y - 16
                         #print(event.pos)
                         self.player.teleport(world_x, world_y)
@@ -141,7 +141,6 @@ class Game:
             self.draw()
 
         pygame.quit()
-	
              
     # kill_player
     def _kill_player(self):
