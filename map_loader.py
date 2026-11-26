@@ -25,6 +25,10 @@ class MapLoader:
         self.parallax_02_speed = self.tmx_data.properties.get("parallax_02_speed", 0.00)
         self.parallax_02_y     = self.tmx_data.properties.get("parallax_02_y", 0)
 
+        self.parallax_03       = self.tmx_data.properties.get("parallax_03")
+        self.parallax_03_speed = self.tmx_data.properties.get("parallax_03_speed", 0.00)
+        self.parallax_03_y     = self.tmx_data.properties.get("parallax_03_y", 0)
+
         self.spawns = {}
         self.collisions = []
         self.hazards = []
