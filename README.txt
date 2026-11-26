@@ -50,7 +50,7 @@ Current features:
 
 Planned / Experimental features (TODO LIST):
 - parallax background layers 
-    (under construction still. i have it working in a seperate project)
+    (under construction)
 - wall jumps (been avoiding this due to never being a huge fan of iwbtg style wall jumps, 
     and still traumatized from previous player movement programming but i will eventually try to get this in)
 - save files 
