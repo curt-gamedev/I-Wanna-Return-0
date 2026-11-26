@@ -62,16 +62,17 @@ class Game:
 
         # Note: these live here for the reason specifically for MOVING_spikes from actionTRIGGER
         # our static spikes live in our tiled data
-        self.spike_images = { "up": pygame.image.load(resource_path("assets/SpikeUp.png")).convert_alpha(),
-                            "down": pygame.image.load(resource_path("assets/SpikeDown.png")).convert_alpha(),
-                            "left": pygame.image.load(resource_path("assets/SpikeLeft.png")).convert_alpha(),
-                            "right": pygame.image.load(resource_path("assets/SpikeRight.png")).convert_alpha() }
+        self.spike_images = { "up": pygame.image.load(resource_path("assets/SpikeUp-metal.png")).convert_alpha(),
+                            "down": pygame.image.load(resource_path("assets/SpikeDown-metal.png")).convert_alpha(),
+                            "left": pygame.image.load(resource_path("assets/SpikeLeft-metal.png")).convert_alpha(),
+                            "right": pygame.image.load(resource_path("assets/SpikeRight-metal.png")).convert_alpha() }
         
         # Room state / Tiled data
         self.game_map = None
         self.background = None
         self.parallax_01 = None
         self.parallax_02 = None
+        self.parallax_03 = None
         self.current_room = None
 
         # Dynamic room objects
@@ -174,6 +175,7 @@ class Game:
 	# UPDATES
 	# ------------------------
     def update(self):
+
         self.camera.update(self.player.rect, self.game_map.width, self.game_map.height, self.game_map.camera_mode)
 
         self._update_moving_platforms()
@@ -357,6 +359,12 @@ class Game:
                 self.game_map.parallax_02_speed, 
                 self.game_map.parallax_02_y )
 
+        if self.parallax_03:
+            self._draw_repeating_parallax (
+                self.parallax_03, 
+                self.game_map.parallax_03_speed, 
+                self.game_map.parallax_03_y )
+
         self.game_map.draw(self.screen, self.camera.x, self.camera.y)
 
         self.game_map.draw_hazard_sprites(self.screen,self.camera)
@@ -482,10 +490,15 @@ class Game:
         else:
             self.parallax_01 = None
 
-        if self.game_map.parallax_01:
+        if self.game_map.parallax_02:
            self.parallax_02 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_02}")).convert_alpha()
         else:
             self.parallax_02 = None
+
+        if self.game_map.parallax_03:
+            self.parallax_03 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_03}")).convert_alpha()
+        else:
+            self.parallax_03 = None
 
         # ------------
         # Player Spawn
