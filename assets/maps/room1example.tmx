@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="98">
  <properties>
-  <property name="background" value="code1.png"/>
+  <property name="background" value="code_A.png"/>
  </properties>
  <tileset firstgid="1" source="ground.tsx"/>
  <tileset firstgid="65" source="killers.tsx"/>
- <tileset firstgid="75" source="saves.tsx"/>
+ <tileset firstgid="80" source="saves.tsx"/>
  <layer id="1" name="Ground" width="25" height="19">
   <data encoding="csv">
 0,0,0,0,26,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,

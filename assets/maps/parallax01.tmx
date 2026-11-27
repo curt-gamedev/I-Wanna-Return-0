@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-up" width="300" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="140">
  <properties>
-  <property name="background" value="sky1.png"/>
+  <property name="background" value="sky_A.png"/>
   <property name="camera_mode" value="horizontal_follow"/>
-  <property name="parallax_01" value="treelineA.png"/>
+  <property name="parallax_01" value="treeline_A.png"/>
   <property name="parallax_01_speed" type="float" value="0.15"/>
   <property name="parallax_01_y" type="int" value="390"/>
-  <property name="parallax_02" value="fieldsA.png"/>
+  <property name="parallax_02" value="fields_A.png"/>
   <property name="parallax_02_speed" type="float" value="0.25"/>
   <property name="parallax_02_y" type="int" value="516"/>
-  <property name="parallax_03" value="fieldsB.png"/>
+  <property name="parallax_03" value="fields_B.png"/>
   <property name="parallax_03_speed" type="float" value="0.4"/>
   <property name="parallax_03_y" type="int" value="548"/>
  </properties>
