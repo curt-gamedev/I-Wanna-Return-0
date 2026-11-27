@@ -67,13 +67,16 @@ class Game:
                              "left": pygame.image.load(resource_path("assets/SpikeLeft-metal.png")).convert_alpha(),
                             "right": pygame.image.load(resource_path("assets/SpikeRight-metal.png")).convert_alpha() }
         
-        # Room state / Tiled data
+        # Room state
         self.game_map = None
+        self.current_room = None
+
+        # Tiled data / background and parallax data
         self.background = None
         self.parallax_01 = None
         self.parallax_02 = None
         self.parallax_03 = None
-        self.current_room = None
+        self.foreground_trees = []
 
         # Dynamic room objects
         self.coins = []
@@ -393,6 +396,13 @@ class Game:
             self.player.draw(self.screen, self.camera)
 
         self._draw_water()
+
+        # ---------------------------
+        # FOREGROUND
+        for tree in self.foreground_trees:
+            tree_screen_x = tree["x"] - self.camera.x * 0.75
+            self.screen.blit(tree["image"], (tree_screen_x, tree["y"]))
+        # ---------------------------
             
         if self.player_dead:
             self._draw_game_over()
@@ -410,7 +420,8 @@ class Game:
         if self.end_text:
             self.end_text.draw(self.screen)
 
-        #drawing the screen to window (for resizable)
+
+        # drawing the screen to window (for resizable)
         window_width, window_height = pygame.display.get_window_size()
         scale_x = window_width / self.WIDTH
         scale_y = window_height / self.HEIGHT
@@ -421,6 +432,8 @@ class Game:
         offset_y = (window_height - scaled_height) // 2
         self.window.fill((0,0,0))
         scaled_screen = pygame.transform.scale(self.screen, (scaled_width, scaled_height))
+        # -----------------------------------------------
+
 
         self.window.blit(scaled_screen, (offset_x, offset_y))
 
@@ -478,7 +491,9 @@ class Game:
         # Load the TMX room
         self.game_map = MapLoader(resource_path(f"assets/maps/{filename}"))
 
-        # Background
+
+        # ---------------------------
+        # Background and parallaxes
         if self.game_map.background:
             self.background = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.background}")).convert()
         else:
@@ -498,6 +513,15 @@ class Game:
             self.parallax_03 = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.parallax_03}")).convert_alpha()
         else:
             self.parallax_03 = None
+
+        self.foreground_trees = []
+
+        if self.current_room == "parallax01.tmx":
+            tree_image = pygame.image.load(resource_path("assets/backgrounds/treegroup_A.png")).convert_alpha()
+            tree_image = pygame.transform.scale_by(tree_image, 2.5)
+            tree_y = self.HEIGHT - tree_image.get_height() + 10
+            self.foreground_trees.append({ "image": tree_image, "x": 0, "y": tree_y })
+        # ----------------------------
 
         # ------------
         # Player Spawn
