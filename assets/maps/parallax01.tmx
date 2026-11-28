@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-up" width="300" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="140">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-up" width="300" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="141">
  <properties>
   <property name="background" value="sky_A.png"/>
   <property name="camera_mode" value="horizontal_follow"/>
@@ -80,7 +80,6 @@
   <object id="29" gid="75" x="1664" y="576" width="32" height="32"/>
   <object id="31" gid="75" x="1728" y="576" width="32" height="32"/>
   <object id="32" gid="75" x="1792" y="576" width="32" height="32"/>
-  <object id="33" gid="78" x="1760" y="516" width="32" height="32"/>
   <object id="37" gid="75" x="1952" y="576" width="32" height="32"/>
   <object id="38" gid="75" x="2048" y="576" width="32" height="32"/>
   <object id="39" gid="78" x="1984" y="520" width="32" height="32"/>
@@ -106,7 +105,6 @@
   <object id="81" gid="70" x="840" y="508" width="16" height="16"/>
   <object id="82" gid="73" x="840" y="448" width="16" height="16"/>
   <object id="83" gid="79" x="502" y="464" width="20" height="24"/>
-  <object id="84" gid="73" x="1288" y="408" width="16" height="16"/>
   <object id="85" gid="79" x="1228" y="464" width="20" height="24"/>
   <object id="86" gid="79" x="1344" y="464" width="20" height="24"/>
   <object id="87" gid="75" x="2800" y="576" width="32" height="32"/>
@@ -141,6 +139,7 @@
   <object id="131" gid="75" x="4608" y="448" width="32" height="32"/>
   <object id="132" gid="70" x="4496" y="576" width="16" height="16"/>
   <object id="135" gid="70" x="4672" y="384" width="16" height="16"/>
+  <object id="140" gid="79" x="1286.67" y="408.333" width="20" height="24"/>
  </objectgroup>
  <objectgroup id="2" name="Collisions">
   <object id="1" x="0" y="512" width="416" height="96"/>
