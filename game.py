@@ -400,7 +400,7 @@ class Game:
         # ---------------------------
         # FOREGROUND
         for tree in self.foreground_trees:
-            tree_screen_x = tree["x"] - self.camera.x * 0.75
+            tree_screen_x = tree["x"] - self.camera.x * 0.8
             self.screen.blit(tree["image"], (tree_screen_x, tree["y"]))
         # ---------------------------
             
@@ -492,7 +492,7 @@ class Game:
         self.game_map = MapLoader(resource_path(f"assets/maps/{filename}"))
 
 
-        # ---------------------------
+        # -------------------------------------
         # Background and parallaxes
         if self.game_map.background:
             self.background = pygame.image.load(resource_path(f"assets/backgrounds/{self.game_map.background}")).convert()
@@ -514,14 +514,27 @@ class Game:
         else:
             self.parallax_03 = None
 
+        # Foreground trees repeating
         self.foreground_trees = []
 
         if self.current_room == "parallax01.tmx":
-            tree_image = pygame.image.load(resource_path("assets/backgrounds/treegroup_A.png")).convert_alpha()
-            tree_image = pygame.transform.scale_by(tree_image, 2.5)
-            tree_y = self.HEIGHT - tree_image.get_height() + 10
-            self.foreground_trees.append({ "image": tree_image, "x": 0, "y": tree_y })
-        # ----------------------------
+            tree_groups = [ ("treegroup_A.png", 0),
+                            ("treegroup_B.png", 270),
+                            ("treegroup_C.png", 460),
+                            ("treegroup_D.png", 730) ]
+            loaded_tree_groups = []
+            for filename, tree_x in tree_groups:
+                tree_image = pygame.image.load(resource_path(f"assets/backgrounds/{filename}")).convert_alpha()
+                tree_image = pygame.transform.scale_by(tree_image, 2.7)
+                tree_y = self.HEIGHT - tree_image.get_height() + 15
+                loaded_tree_groups.append( (tree_image, tree_x, tree_y) )
+            tree_repeat_width = 900
+            for repeat in range(5): # this is cheating by making it in range(5) but ...  oh well
+                for tree_image, tree_x, tree_y in loaded_tree_groups:
+                    repeated_x = tree_x + repeat * tree_repeat_width # repeat is 0 for the first loop and then +1 for each after
+                    self.foreground_trees.append({ "image":tree_image, "x":repeated_x, "y":tree_y })
+        # -------------------------------------
+
 
         # ------------
         # Player Spawn
